@@ -7,17 +7,27 @@
 #include "systemTypes.h"
 #include "asic.h"
 #include "hal_clock.h"
+#include "hal_flash.h"
 
 //
 // Setup PLL to 100MHz
 //
 struct sPllParam sPll100MHzParam =
 {
-	0,   // source for PLL
 	200, // N scale
 	16,  // M scale
-	2,   // P scale
+	0,   // P scale
+	4,   // Q scale
 };
+
+/**
+ * Software delay
+ *
+ */
+void software_delay(void)
+{
+	for (UINT32 loop = 0; loop <= 0xFFFFUL; loop++);
+}
 
 /**
  * Initialize the M4 to clock 100MHz
@@ -25,8 +35,19 @@ struct sPllParam sPll100MHzParam =
  */
 void hal_clock_init(void)
 {
-	// Select HSI as PLL and PLLI2S as clock input
-	sRCC->RCC_PLLCFGR.bits.PLLSRC = sPll100MHzParam.PLLSRC;
+
+	// APB1 Power Enable
+	sRCC->RCC_APB1ENR.bits.PWREN = 1;
+	software_delay();
+
+	// Enable the power consumption to max for max PLL clock
+	sPWR->PWR_CR.bits.VOS = 0x3;
+	software_delay();
+
+	//sRCC->RCC_CFGR.bits.MCO1 = 0x03;
+	sRCC->RCC_CFGR.bits.MCO2 = 0x03;
+
+	sRCC->RCC_CR.bits.HSICAL = 0x10;
 
 	// N-scale multiplication
 	sRCC->RCC_PLLCFGR.bits.PLLN   = sPll100MHzParam.PLLN;
@@ -37,15 +58,26 @@ void hal_clock_init(void)
 	// M-scale division of main PLL
 	sRCC->RCC_PLLCFGR.bits.PLLP   = sPll100MHzParam.PLLP;
 
+	// Q-scale division of USB-OTG
+	sRCC->RCC_PLLCFGR.bits.PLLQ   = sPll100MHzParam.PLLQ;
+
+	// Select HSI as PLL and PLLI2S as clock input
+	sRCC->RCC_PLLCFGR.bits.PLLSRC = 0;
+	software_delay();
+
 	// Turn on the PLL
 	sRCC->RCC_CR.bits.PLLON = 1;
 
 	// Wait for PLL to be lock
 	while(!sRCC->RCC_CR.bits.PLLRDY);
 
+	// change latency for flash due to clock frequency
+	hal_flash_latency(3);
+	software_delay();
+
 	// Switch to PLL clock source
-	sRCC->RCC_CFGR.bits.SW0 = 0;
-	sRCC->RCC_CFGR.bits.SW1 = 1;
+	sRCC->RCC_CFGR.bits.SW = 0x02;
+	software_delay();
 
 	// Set prescale for APB1 clock divide by 2
 	sRCC->RCC_CFGR.bits.PPRE1 = 0x4;

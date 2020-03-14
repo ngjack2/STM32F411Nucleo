@@ -8,7 +8,21 @@
 #include "asic.h"
 
 //
-// for TIMx
+// Flash register base address
+//
+#define FLASH_BASE_ADDR 0x40023C00UL
+
+volatile tFLASH* sFLASH = (volatile tFLASH*)(FLASH_BASE_ADDR);
+
+//
+// Power register base address
+//
+#define PWR_BASE_ADDR 0x40007000UL
+
+volatile tPWR* sPWR = (volatile tPWR*)(PWR_BASE_ADDR);
+
+//
+// for TIMx base address
 //
 #define TIM2_BASE_ADDR 0x40000000UL
 
@@ -24,6 +38,7 @@ volatile tTIMx* sTIM5  = (volatile tTIMx*)(TIM2_BASE_ADDR + 0xC00UL);
 
 volatile tGPIO* sGPIOA = (volatile tGPIO*)(GPIO_BASE_ADDR);
 volatile tGPIO* sGPIOB = (volatile tGPIO*)(GPIO_BASE_ADDR + 0x400);
+volatile tGPIO* sGPIOC = (volatile tGPIO*)(GPIO_BASE_ADDR + 0x800);
 
 //
 // for RCC

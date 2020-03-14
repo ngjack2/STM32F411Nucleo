@@ -12,6 +12,148 @@
 
 typedef struct
 {
+	union // FLASH_ACR
+	{
+		UINT32 all32;
+		struct
+		{
+			UINT32 LATENCY : 4;
+			UINT32 RSVD_4  : 4;
+			UINT32 PRFTEN  : 1;
+			UINT32 ICEN    : 1;
+			UINT32 DCEN    : 1;
+			UINT32 ICRST   : 1;
+			UINT32 DCRST   : 1;
+			UINT32 RSVD_13 : 19;
+		}bits;
+
+	}FLASH_ACR;
+
+	union // FLASH_KEYR
+	{
+		UINT32 all32;
+	}FLASH_KEYR;
+
+	union // FLASH_OPTKEYR
+	{
+		UINT32 all32;
+	}FLASH_OPTKEYR;
+
+	union // FLASH_SR
+	{
+		UINT32 all32;
+		struct
+		{
+			UINT32 EOP     : 1;
+			UINT32 OPERR   : 4;
+			UINT32 RSVD_2  : 2;
+			UINT32 WRPERR  : 1;
+			UINT32 PGAERR  : 1;
+			UINT32 PGPERR  : 1;
+			UINT32 PGSERR  : 1;
+			UINT32 RDERR   : 1;
+			UINT32 RSVD_9  : 7;
+			UINT32 BSY     : 1;
+			UINT32 RSVD_13 : 15;
+		}bits;
+
+	}FLASH_SR;
+
+	union // FLASH_CR
+	{
+		UINT32 all32;
+		struct
+		{
+			UINT32 PG      : 1;
+			UINT32 SER     : 1;
+			UINT32 MER     : 1;
+			UINT32 SNB     : 4;
+			UINT32 RSVD_7  : 1;
+			UINT32 PSIZE   : 2;
+			UINT32 RSVD_10 : 6;
+			UINT32 STRT    : 1;
+			UINT32 RSVD_17 : 7;
+			UINT32 EOPIE   : 1;
+			UINT32 ERRIE   : 1;
+			UINT32 RSVD_13 : 5;
+			UINT32 LOCK    : 1;
+		}bits;
+
+	}FLASH_CR;
+
+	union //FLASH_OPTCR
+	{
+		UINT32 all32;
+		struct
+		{
+			UINT32 OPTLO      : 1;
+			UINT32 OPTST      : 1;
+			UINT32 BOR_LEV    : 2;
+			UINT32 RSVD_4     : 1;
+			UINT32 WDG_SW     : 1;
+			UINT32 nRST_STOP  : 1;
+			UINT32 nRST_STDBY : 1;
+			UINT32 RDP        : 8;
+			UINT32 nWRP       : 8;
+			UINT32 RSVD_24    : 7;
+			UINT32 SPRMOD     : 1;
+		}bits;
+
+	}FLASH_OPTCR;
+
+}tFLASH;
+
+typedef struct
+{
+	union // PWR_CR
+	{
+		UINT32 all32;
+		struct
+		{
+			UINT32 LPDS    : 1;
+			UINT32 PDDS    : 1;
+			UINT32 CWUF    : 1;
+			UINT32 CSBF    : 1;
+			UINT32 PVDE    : 1;
+			UINT32 PLS     : 3;
+			UINT32 DBP     : 1;
+			UINT32 FPDS    : 1;
+			UINT32 LPLVDS  : 1;
+			UINT32 MRLVSD  : 1;
+			UINT32 RSVD_12 : 1;
+			UINT32 ADCDC1  : 1;
+			UINT32 VOS     : 2;
+			UINT32 RSVD_16 : 4;
+			UINT32 FMSSR   : 1;
+			UINT32 FISSR   : 1;
+			UINT32 RSVD_22 : 10;
+		}bits;
+
+	}PWR_CR;
+
+	union // PWR_CSR
+	{
+		UINT32 all32;
+		struct
+		{
+			UINT32 WUF     : 1;
+			UINT32 SBF     : 1;
+			UINT32 PVDO    : 1;
+			UINT32 BRR     : 1;
+			UINT32 RSVD_4  : 4;
+			UINT32 EWUP    : 1;
+			UINT32 BRE     : 1;
+			UINT32 RSVD_10 : 4;
+			UINT32 VOSRDY  : 1;
+			UINT32 RSVD_15 : 17;
+
+		}bits;
+
+	}PWR_CSR;
+}tPWR;
+
+typedef struct
+{
 	union //RCC_CR
 	{
 		UINT32 all32;
@@ -48,10 +190,7 @@ typedef struct
 			UINT32 RSVD_18 : 4;
 			UINT32 PLLSRC  : 1;
 			UINT32 RSVD_23 : 1;
-			UINT32 PLLQ0   : 1;
-			UINT32 PLLQ1   : 1;
-			UINT32 PLLQ2   : 1;
-			UINT32 PLLQ3   : 1;
+			UINT32 PLLQ    : 4;
 			UINT32 RSVD_28 : 4;
 		}bits;
 
@@ -62,8 +201,7 @@ typedef struct
 		UINT32 all32;
 		struct
 		{
-			UINT32 SW0      : 1;
-			UINT32 SW1      : 1;
+			UINT32 SW       : 2;
 			UINT32 SWS0     : 1;
 			UINT32 SWS1     : 1;
 			UINT32 HPRE     : 4;
@@ -71,13 +209,11 @@ typedef struct
 			UINT32 PPRE1    : 3;
 			UINT32 PPRE2    : 3;
 			UINT32 RTCPRE   : 5;
-			UINT32 RSVD_21  : 1;
-			UINT32 MCO1     : 1;
+			UINT32 MCO1     : 2;
 			UINT32 I2SSCR   : 1;
 			UINT32 MCO1_PRE : 3;
 			UINT32 MCO2_PRE : 3;
-			UINT32 RSVD_30  : 1;
-			UINT32 MCO2     : 1;
+			UINT32 MCO2     : 2;
 		}bits;
 
 	}RCC_CFGR;
@@ -271,7 +407,6 @@ typedef struct
 	}RCC_APB1ENR;
 
 	union // RCC_APB2ENR
-
 	{
 		UINT32 all32;
 		struct
@@ -482,10 +617,9 @@ typedef struct
 
 }tRCC;
 
-
 typedef struct
 {
-	union
+	union // GPIOx_MODER
 	{
 		UINT32 all32;
 		struct
@@ -510,7 +644,7 @@ typedef struct
 
 	}GPIOx_MODER;
 
-	union
+	union // GPIOx_OTYPER
 	{
 		UINT32 all32;
 		struct
@@ -536,7 +670,7 @@ typedef struct
 
 	}GPIOx_OTYPER;
 
-	union
+	union // GPIOx_OSPEEDR
 	{
 		UINT32 all32;
 		struct
@@ -561,7 +695,7 @@ typedef struct
 
 	}GPIOx_OSPEEDR;
 
-	union
+	union // GPIOx_PUPDR
 	{
 		UINT32 all32;
 		struct
@@ -586,7 +720,7 @@ typedef struct
 
 	}GPIOx_PUPDR;
 
-	union
+	union // GPIOx_IDR
 	{
 		UINT32 all32;
 		struct
@@ -612,7 +746,7 @@ typedef struct
 
 	}GPIOx_IDR;
 
-	union
+	union // GPIOx_ODR
 	{
 		UINT32 all32;
 		struct
@@ -638,7 +772,7 @@ typedef struct
 
 	}GPIOx_ODR;
 
-	union
+	union // GPIOx_BSRR
 	{
 		UINT32 all32;
 		struct
@@ -679,7 +813,7 @@ typedef struct
 
 	}GPIOx_BSRR;
 
-	union
+	union // GPIOx_LCKR
 	{
 		UINT32 all32;
 		struct
@@ -706,7 +840,7 @@ typedef struct
 
 	}GPIOx_LCKR;
 
-	union
+	union // GPIOx_AFRL
 	{
 		UINT32 all32;
 		struct
@@ -724,7 +858,7 @@ typedef struct
 
 	}GPIOx_AFRL;
 
-	union
+	union // GPIOx_AFRH
 	{
 		UINT32 all32;
 		struct
@@ -759,8 +893,8 @@ typedef struct
 			UINT32 ARPE    : 1;
 			UINT32 CKD     : 2;
 			UINT32 RSVD_10 : 22;
-
 		}bits;
+
 	}TIMx_CR1;
 
 	union // TIMxCR2
@@ -774,6 +908,7 @@ typedef struct
 			UINT32 TI1S   : 1;
 			UINT32 RSVD_8 : 24;
 		}bits;
+
 	}TIMx_CR2;
 
 	union // TIMx_SMCR
@@ -791,6 +926,7 @@ typedef struct
 			UINT32 ETP 	   : 1;
 			UINT32 RSVD_15 : 17;
 		}bits;
+
 	}TIMx_SMCR;
 
 	union // TIMx_DIER
@@ -815,6 +951,7 @@ typedef struct
 			UINT32 TDE     : 1;
 			UINT32 RSVD_15 : 17;
 		}bits;
+
 	}TIMx_DIER;
 
 	union // TIMx_SR
@@ -835,6 +972,7 @@ typedef struct
 			UINT32 CC4OF   : 1;
 			UINT32 RSVD_13 : 20;
 		}bits;
+
 	}TIMx_SR;
 
     union // TIMx_EGR
@@ -851,6 +989,7 @@ typedef struct
 			UINT32 TG     : 1;
 			UINT32 RSVD_7 : 26;
 		}bits;
+
 	}TIMx_EGR;
 
     union // TIMx_CCMR1
@@ -870,6 +1009,7 @@ typedef struct
     		UINT32 OC2CE   : 1;
     		UINT32 RSVD_16 : 16;
 		}bits;
+
 	}TIMx_CCMR1;
 
     union // TIMx_CCMR2
@@ -889,6 +1029,7 @@ typedef struct
     		UINT32 OC4CE   : 1;
     		UINT32 RSVD_16 : 16;
 		}bits;
+
 	}TIMx_CCMR2;
 
     union // TIMx_CCER
@@ -914,25 +1055,19 @@ typedef struct
     		UINT32 CC4NP   : 1;
     		UINT32 RSVD_16 : 16;
 		}bits;
+
 	}TIMx_CCER;
 
-	union // TIMx_CNT_L
+	union // TIMx_CNT
 	{
-		UINT16 all16;
+		UINT32 all32;
 		struct
 		{
 			UINT16 CNT_L : 16;
-		}bits;
-	}TIMx_CNT_L;
-
-	union // TIMx_CNT_H
-	{
-		UINT16 all16;
-		struct
-		{
 			UINT16 CNT_H : 16;
 		}bits;
-	}TIMx_CNT_H;
+
+	}TIMx_CNT;
 
 	union // TIMx_PSC
 	{
@@ -942,6 +1077,7 @@ typedef struct
 			UINT32 PSC     : 16;
 			UINT32 RSVD_15 : 16;
 		}bits;
+
 	}TIMx_PSC;
 
 	union // TIMx_ARR
@@ -952,6 +1088,7 @@ typedef struct
 			UINT32 ARR_L : 16;
 			UINT32 ARR_H : 16;
 		}bits;
+
 	}TIMx_ARR;
 
 	union // TIMx_CCR1
@@ -962,6 +1099,7 @@ typedef struct
 			UINT32 CCR1_L : 16;
 			UINT32 CCR1_H : 16;
 		}bits;
+
 	}TIMx_CCR1;
 
 	union // TIMx_CCR2
@@ -972,6 +1110,7 @@ typedef struct
 			UINT32 CCR2_L : 16;
 			UINT32 CCR2_H : 16;
 		}bits;
+
 	}TIMx_CCR2;
 
 	union // TIMx_CCR3
@@ -982,6 +1121,7 @@ typedef struct
 			UINT32 CCR3_L : 16;
 			UINT32 CCR3_H : 16;
 		}bits;
+
 	}TIMx_CCR3;
 
 	union // TIMx_CCR4
@@ -992,6 +1132,7 @@ typedef struct
 			UINT32 CCR4_L : 16;
 			UINT32 CCR4_H : 16;
 		}bits;
+
 	}TIMx_CCR4;
 
 	UINT32 AUTOPAD_R40000044;
@@ -1006,6 +1147,7 @@ typedef struct
 			UINT32 DBL     : 5;
 			UINT32 RSVD_13 : 19;
 		}bits;
+
 	}TIMx_DMA;
 
 	union // TIMx_DMAR
@@ -1016,6 +1158,7 @@ typedef struct
 			UINT32 DMAB    : 16;
 			UINT32 RSVD_16 : 16;
 		}bits;
+
 	}TIMx_DMAR;
 
 	union // TIM2_OR
@@ -1027,6 +1170,7 @@ typedef struct
 			UINT32 ITR1_RMP : 2;
 			UINT32 RSVD_12  : 20;
 		}bits;
+
 	}TIM2_OR;
 
 	union // TIM5_OR
@@ -1038,12 +1182,16 @@ typedef struct
 			UINT32 TI4_RMP : 2;
 			UINT32 RSVD_8  : 24;
 		}bits;
+
 	}TIM5_OR;
 }tTIMx;
 
+extern volatile tFLASH*   sFLASH;
+extern volatile tPWR*     sPWR;
 extern volatile tRCC*     sRCC;
 extern volatile tGPIO*    sGPIOA;
 extern volatile tGPIO*    sGPIOB;
+extern volatile tGPIO*    sGPIOC;
 extern volatile tTIMx*    sTIM2;
 extern volatile tTIMx*    sTIM3;
 extern volatile tTIMx*    sTIM4;

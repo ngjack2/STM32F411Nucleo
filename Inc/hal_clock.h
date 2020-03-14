@@ -13,10 +13,10 @@
 //
 struct sPllParam
 {
-	UINT32 PLLSRC;
 	UINT32 PLLN;
 	UINT32 PLLM;
 	UINT32 PLLP;
+	UINT32 PLLQ;
 };
 
 extern void hal_clock_init(void);

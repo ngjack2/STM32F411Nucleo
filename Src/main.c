@@ -18,12 +18,6 @@
 #include "hal_clock.h"
 #include "hal_timer.h"
 
-void delay(void)
-{
-	for (UINT32 j = 0; j < 100; j++)
-		for (UINT32 i = 0; i < 1000000; i++);
-}
-
 
 /**
  * Starting main task
@@ -44,14 +38,15 @@ int c_main(void)
 	//
 	// Initialize Port A for LD2
 	//
-	hal_gpioA_init();
+	hal_gpio_init();
 
 	for(;;)
 	{
 		// Turn on/off LD2 (PA5)
 		hal_gpioA_pin5_toggle();
-		for (UINT32 i = 0;  i <= 100000; i++)
-			hal_delay_us(1000);
+
+		for (UINT32 i = 0;  i <= 1000000; i++)
+			hal_delay_us(100);
 	}
 
 }

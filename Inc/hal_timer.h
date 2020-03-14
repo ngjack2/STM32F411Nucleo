@@ -8,7 +8,10 @@
 #ifndef HAL_TIMER_H_
 #define HAL_TIMER_H_
 
+
 extern void hal_timer_init(void);
+extern void hal_timer2_init(void);
+
 extern UINT32 hal_delay_us(UINT32 value);
 
 #endif /* HAL_TIMER_H_ */

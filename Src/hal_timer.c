@@ -6,10 +6,11 @@
  */
 #include "systemTypes.h"
 #include "asic.h"
+#include "hal_timer.h"
 
-void hal_timer2_init(void);
 
 /**
+ * Initialize all the necessary timer
  *
  */
 void hal_timer_init(void)
@@ -23,14 +24,17 @@ void hal_timer_init(void)
  */
 void hal_timer2_init(void)
 {
-	// Enable timer
+	// Enable timer 2
 	sRCC->RCC_APB1ENR.bits.TIM2EN = 1;
 
-	// Load 0 into
+	// Load 0 into auto reload register
 	sTIM2->TIMx_ARR.all32 = 0;
 
+	//
+	sTIM2->TIMx_CNT.all32 = 0;
+
 	// divide 50 for current clk speed
-	sTIM2->TIMx_PSC.all32 = 50;
+	sTIM2->TIMx_PSC.all32 = 0;
 
 	// Timer counter enable
 	sTIM2->TIMx_CR1.bits.CEN = 1;
@@ -38,19 +42,19 @@ void hal_timer2_init(void)
 }
 
 /**
- *
+ * Get free running timer2 counter value
  *
  */
 UINT32 hal_get_timer2_counter(void)
 {
 
-	UINT32 value = (sTIM2->TIMx_CNT_H.all16 << 16) | sTIM2->TIMx_CNT_L.all16;
+	UINT32 value = sTIM2->TIMx_CNT.all32;
 
 	return (value);
 }
 
 /**
- *
+ * Function that delay 1 us
  *
  */
 UINT32 hal_delay_us(UINT32 value)
