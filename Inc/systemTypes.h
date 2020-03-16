@@ -45,4 +45,16 @@ typedef UINT32              UINT_32;
 typedef INT64               INT_64;
 typedef UINT64              UINT_64;
 
+//
+//  Define macro to declare code extern "C" for c++
+//
+//
+#ifndef __externC
+    #ifdef __cplusplus
+        #define __externC extern "C"
+    #else
+        #define __externC extern
+    #endif
+#endif
+
 #endif /* SYSTEMTYPES_H_ */

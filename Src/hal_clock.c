@@ -4,6 +4,7 @@
  *  Created on: 3 Mar 2020
  *      Author: yaphan.ng
  */
+#include <stdbool.h>
 #include "systemTypes.h"
 #include "asic.h"
 #include "hal_clock.h"
@@ -33,7 +34,7 @@ void software_delay(void)
  * Initialize the M4 to clock 100MHz
  *
  */
-void hal_clock_init(void)
+__externC void hal_clock_init(void)
 {
 
 	// APB1 Power Enable
@@ -43,6 +44,15 @@ void hal_clock_init(void)
 	// Enable the power consumption to max for max PLL clock
 	sPWR->PWR_CR.bits.VOS = 0x3;
 	software_delay();
+
+	// Enable data cache control
+	hal_data_cache_control(true);
+
+	// Enable instruction cache control
+	hal_instruction_cache_control(true);
+
+	// Enable prefetch feature
+	hal_prefetch_cache_control(true);
 
 	//sRCC->RCC_CFGR.bits.MCO1 = 0x03;
 	sRCC->RCC_CFGR.bits.MCO2 = 0x03;

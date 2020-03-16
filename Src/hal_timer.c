@@ -13,7 +13,7 @@
  * Initialize all the necessary timer
  *
  */
-void hal_timer_init(void)
+__externC void hal_timer_init(void)
 {
 	hal_timer2_init();
 }
@@ -22,7 +22,7 @@ void hal_timer_init(void)
  * Create a general counter with 1 tick is 1us
  *
  */
-void hal_timer2_init(void)
+__externC void hal_timer2_init(void)
 {
 	// Enable timer 2
 	sRCC->RCC_APB1ENR.bits.TIM2EN = 1;
@@ -45,7 +45,7 @@ void hal_timer2_init(void)
  * Get free running timer2 counter value
  *
  */
-UINT32 hal_get_timer2_counter(void)
+__externC UINT32 hal_get_timer2_counter(void)
 {
 
 	UINT32 value = sTIM2->TIMx_CNT.all32;
@@ -57,7 +57,7 @@ UINT32 hal_get_timer2_counter(void)
  * Function that delay 1 us
  *
  */
-UINT32 hal_delay_us(UINT32 value)
+__externC UINT32 hal_delay_us(UINT32 value)
 {
 	UINT32 startTime = hal_get_timer2_counter();
 

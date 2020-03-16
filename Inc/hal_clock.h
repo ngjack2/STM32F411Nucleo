@@ -19,6 +19,6 @@ struct sPllParam
 	UINT32 PLLQ;
 };
 
-extern void hal_clock_init(void);
+__externC void hal_clock_init(void);
 
 #endif /* HAL_CLOCK_H_ */

@@ -12,7 +12,7 @@
  * Initialize all ports
  *
  */
-void hal_gpio_init(void)
+__externC void hal_gpio_init(void)
 {
 	// Initialize the port A
 	hal_gpioA_init();
@@ -26,7 +26,7 @@ void hal_gpio_init(void)
  * Initialize the portA pin 5 as output
  *
  */
-void hal_gpioA_init(void)
+__externC void hal_gpioA_init(void)
 {
 	// Enable GPIO A
 	sRCC->RCC_AHB1ENR.bits.GPIOAEN = 1;
@@ -48,7 +48,7 @@ void hal_gpioA_init(void)
  * Initialize the portC pin 5 as input
  *
  */
-void hal_gpioC_init(void)
+__externC void hal_gpioC_init(void)
 {
 	// Enable GPIO C
 	sRCC->RCC_AHB1ENR.bits.GPIOCEN = 1;
@@ -74,7 +74,7 @@ void hal_gpioC_init(void)
  * Toggle GPIO Port A pin 5
  *
  */
-void hal_gpioA_pin5_toggle(void)
+__externC void hal_gpioA_pin5_toggle(void)
 {
 	sGPIOA->GPIOx_ODR.bits.ODR5 ^= 1;
 }
@@ -83,7 +83,7 @@ void hal_gpioA_pin5_toggle(void)
  * Get value from port C pin 13
  *
  */
-UINT32 hal_get_gpioC_pin13(void)
+__externC UINT32 hal_get_gpioC_pin13(void)
 {
 	return (sGPIOC->GPIOx_IDR.bits.IDR13);
 }
